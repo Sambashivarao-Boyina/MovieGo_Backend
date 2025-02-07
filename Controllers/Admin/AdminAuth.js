@@ -6,16 +6,15 @@ const jwt = require("jsonwebtoken");
 module.exports.adminSignUp = async (req, res, next) => {
     
     const adminData = req.body;
-   
 
     let userExist = await Admin.findOne({ email: adminData.email });
     if (userExist) {
-        return res.status(409, "Email Already exist");
+        return res.status(409).json({ message:"Email Already exist"});
     }
 
     userExist = await Admin.findOne({ name: adminData.name });
     if (userExist) {
-        return res.status(409, "Name already exist");
+        return res.status(409).json({ message: "Name already exist" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -29,7 +28,7 @@ module.exports.adminSignUp = async (req, res, next) => {
         { id: savedUser._id, type: "Admin" },
         process.env.SECREAT_KEY,
         {
-        expiresIn: "7d",
+            expiresIn: "7d",
         }
     );
 
