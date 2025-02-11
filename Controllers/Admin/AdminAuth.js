@@ -7,13 +7,13 @@ module.exports.adminSignUp = async (req, res, next) => {
     
     const adminData = req.body;
 
-    let userExist = await Admin.findOne({ email: adminData.email });
-    if (userExist) {
+    let adminExist = await Admin.findOne({ email: adminData.email });
+    if (adminExist) {
         return res.status(409).json({ message:"Email Already exist"});
     }
 
-    userExist = await Admin.findOne({ name: adminData.name });
-    if (userExist) {
+    adminExist = await Admin.findOne({ name: adminData.name });
+    if (adminExist) {
         return res.status(409).json({ message: "Name already exist" });
     }
 
@@ -41,20 +41,26 @@ module.exports.adminLogin = async (req, res, next) => {
 
     const admin = await Admin.findOne({ email: email });
     if (!admin) {
-        return res.status(401).json({message:"Email not exist"});
+        return res.status(401).json({message:"Email doesn't exist"});
     } 
     
 
     // const isCorrect = await bycrypt.compare(password, admin.password);
      const isCorrect = await bcrypt.compare(password, admin.password);
-    console.log(isCorrect);
+   
     
     if (!isCorrect) {
         return res.status(401).json({ message: "Password doest match" });
     }
 
     const token = jwt.sign({ id: admin._id, type: "Admin" }, process.env.SECREAT_KEY, { expiresIn: "7d" });
-    console.log(token)
+   
 
     res.status(200).json({ message: "Login Successfull" ,token:token});
+}
+
+module.exports.adminRefreshToken = async (req, res, next) => {
+    const token = jwt.sign({ id: req.user.id, type: "Admin" }, process.env.SECREAT_KEY, { expiresIn: "7d" });
+
+    res.status(200).json({ message: "Token is verified", token: token });
 }

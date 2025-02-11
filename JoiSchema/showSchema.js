@@ -5,5 +5,6 @@ module.exports = Joi.object({
     theater: Joi.string().alphanum().trim().required(),
     screen: Joi.string().alphanum().trim().required(),
     date: Joi.string().trim().required(),
-    showTime: Joi.string().trim().required()
+    showTime: Joi.string().trim().required(),
+    ticketCost:Joi.number().required()
 })

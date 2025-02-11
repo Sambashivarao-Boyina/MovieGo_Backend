@@ -49,6 +49,17 @@ module.exports.createShow = async (req, res, next) => {
 
 }
 
+module.exports.getShowsList = async (req, res, next) => {
+    let shows = await Show.find({ admin: req.user.id })
+      .populate("movie")
+      .populate("theater")
+      .populate("screen")
+      .select("-seats");
+    
+
+    res.status(200).json(shows);
+}
+
 module.exports.getShow = async (req, res, next) => {
     const show = await Show.findById(req.params.showId).populate("theater").populate("movie").populate("screen");
 

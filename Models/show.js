@@ -5,12 +5,17 @@ const Schema = mongoose.Schema;
 const showSchema = new Schema({
     admin: {
         type: Schema.Types.ObjectId,
+        ref:"Admin",
         required: true,
     },
     movie: {
         type: Schema.Types.ObjectId,
         ref: "Movie",
         required: true,
+    },
+    ticketCost: {
+        type: Number,
+        required: true
     },
     theater: {
         type: Schema.Types.ObjectId,
@@ -55,19 +60,21 @@ const showSchema = new Schema({
             virtuals: true,
             transform: (doc, ret) => {
                 delete ret.id;
+                delete ret.__v;
             },
         },
         toObject: {
             virtuals: true,
             transform: (doc, ret) => {
                 delete ret.id;
+                delete ret.__t
             },
         },
     }
 );
 
 showSchema.virtual("bookedSeatsCount").get(function () {
-  return this.seats.filter((seat) => seat.status === "Booked").length;
+  return Array.isArray(this.seats) ? this.seats.filter((seat) => seat.status === "Booked").length : 0;
 });
 
 const Show = mongoose.model("Show", showSchema);
