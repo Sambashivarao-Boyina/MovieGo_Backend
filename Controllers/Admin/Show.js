@@ -25,7 +25,7 @@ module.exports.createShow = async (req, res, next) => {
         throw new ExpressError(404, "This screen is not in the theater");
     } 
 
-    if (admin.movies.indexOf(req.body.movie)) {
+    if (admin.movies.indexOf(req.body.movie) === -1) {
         throw new ExpressError(404, "You does't have this movie");
     }
 

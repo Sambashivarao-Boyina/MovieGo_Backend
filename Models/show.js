@@ -51,7 +51,7 @@ const showSchema = new Schema({
                 },
                 processingUntil: { type: Date, default: null },
             },
-            { _id: false, id: false }
+            { _id: true, id: false }
         ), // ✅ Disable both _id and id
         ],
     },

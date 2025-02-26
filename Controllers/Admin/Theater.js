@@ -19,7 +19,9 @@ module.exports.createNewTheater = async (req, res, next) => {
 }
 
 module.exports.getAllTheatersOfAdmin = async (req, res, next) => {
-    const theaters = await Theater.find({ admin: req.user.id });
+    const theaters = await Theater.find({ admin: req.user.id }).populate(
+      "screens"
+    );
 
     res.status(200).json(theaters);
 }
