@@ -25,6 +25,7 @@ app.use(express.json());
 //routes
 //admin
 const adminAuthRouter = require("./Routes/Admin/AdminAuth");
+const adminRouter = require("./Routes/Admin/Admin");
 const theaterRouter = require("./Routes/Admin/Theater");
 const screenRouter = require("./Routes/Admin/Screen");
 const movieRouter = require("./Routes/Admin/Movies");
@@ -33,6 +34,7 @@ const showRouter = require("./Routes/Admin/Show");
 //User
 const userAuthRouter = require("./Routes/User/UserAuth");
 
+app.use("/api/admin", adminRouter);
 app.use("/api/admin/auth", adminAuthRouter);
 app.use("/api/admin/theater", theaterRouter);
 app.use("/api/admin/screen", screenRouter)
