@@ -29,8 +29,10 @@ module.exports.createScreen = async (req, res, next) => {
 
     await theater.save();
 
+    const savedTheater = await Theater.findById(theaterId).populate("screens");
 
-    res.status(201).json({ messsage: "Screen is added" });
+
+    res.status(201).json(savedTheater);
 }
 
 module.exports.getAllScreen = async (req, res, next) => {
@@ -46,3 +48,25 @@ module.exports.getAllScreen = async (req, res, next) => {
 
     res.status(200).json(theater.screens)
 }
+
+module.exports.editScreen = async (req, res) => {
+    const screenId = req.params.screenId;
+
+    const screen = await Screen.findById(screenId).populate("theater");
+
+    if (!screen) {
+        throw new ExpressError(404, "Screeen is not found");
+    }
+
+
+    if (!screen.theater.admin.equals(req.user.id)) {
+      throw new ExpressError(401, "You are not the admin of this screen");
+    }
+
+    await Screen.findByIdAndUpdate(screenId, req.body);
+
+    const savedTheater = await Theater.findById(screen.theater._id).populate("screens");
+    res.status(201).json(savedTheater);
+    
+}
+

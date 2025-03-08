@@ -3,10 +3,34 @@ const isAdmin = require("../../MiddleWares/isAdmin");
 const IsAutheticated = require("../../MiddleWares/IsAutheticated");
 const { validateMovie } = require("../../Utils/Validatations");
 const WrapAsync = require("../../Utils/WrapAsync");
+const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "MovieGo",
+  },
+});
+
+const upload = multer({ storage });
 
 const router = require("express").Router();
 
-router.post("/", IsAutheticated, isAdmin, validateMovie, WrapAsync(createMovie));
+router.post(
+  "/",
+  IsAutheticated,
+  isAdmin,
+  upload.single("poster"),
+  WrapAsync(createMovie)
+);
 router.get("/", IsAutheticated, isAdmin, WrapAsync(getAllAdminMovies));
 router.delete("/:movieId", IsAutheticated, isAdmin, WrapAsync(deleteAdminMovie));
 

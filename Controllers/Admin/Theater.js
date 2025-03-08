@@ -28,6 +28,7 @@ module.exports.getAllTheatersOfAdmin = async (req, res) => {
 }
 
 module.exports.getTheaterDetails = async (req, res) => {
+
     const theaterId = req.params.theaterId;
 
     if (!theaterId) {

@@ -3,13 +3,16 @@ const Movie = require("../../Models/movie");
 const ExpressError = require("../../Utils/ExpressError");
 
 module.exports.createMovie = async (req, res, next) => {
+    console.log("request received");
     const admin = await Admin.findById(req.user.id);
 
     if (!admin) {
         throw new ExpressError(404, "Admin not found");
     }
 
-    const newMovie = new Movie(req.body);
+    const movieData = JSON.parse(req.body.movie);
+
+    const newMovie = new Movie({ ...movieData, posterUrl : req.file.path});
 
     const savedMovie = await newMovie.save();
 
