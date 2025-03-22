@@ -3,7 +3,6 @@ const Movie = require("../../Models/movie");
 const ExpressError = require("../../Utils/ExpressError");
 
 module.exports.createMovie = async (req, res, next) => {
-    console.log("request received");
     const admin = await Admin.findById(req.user.id);
 
     if (!admin) {

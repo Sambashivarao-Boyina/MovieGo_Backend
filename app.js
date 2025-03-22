@@ -44,6 +44,7 @@ app.use("/api/admin/show", showRouter);
 app.use("/api/user/auth", userAuthRouter);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   let { status = 500, message = "Internal ServerError" } = err;
   res.status(status).json({ message: message });
 });

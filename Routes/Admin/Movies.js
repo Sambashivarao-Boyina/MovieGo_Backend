@@ -1,11 +1,11 @@
 const { createMovie, getAllAdminMovies, deleteAdminMovie } = require("../../Controllers/Admin/Movies");
 const isAdmin = require("../../MiddleWares/isAdmin");
 const IsAutheticated = require("../../MiddleWares/IsAutheticated");
-const { validateMovie } = require("../../Utils/Validatations");
 const WrapAsync = require("../../Utils/WrapAsync");
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { validateMovie } = require("../../Utils/Validatations");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -29,6 +29,7 @@ router.post(
   IsAutheticated,
   isAdmin,
   upload.single("poster"),
+  validateMovie,
   WrapAsync(createMovie)
 );
 router.get("/", IsAutheticated, isAdmin, WrapAsync(getAllAdminMovies));

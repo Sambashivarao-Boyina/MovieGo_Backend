@@ -17,7 +17,8 @@ module.exports.validateAdmin = (req, res, next) => {
 }
 
 module.exports.validateTheater = (req, res, next) => {
-    let { error } = theaterSchema.validate(req.body);
+    
+    let { error } = theaterSchema.validate(JSON.parse(req.body.theater));
     if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);
@@ -37,7 +38,7 @@ module.exports.validateScreen = (req, res, next) => {
 }
 
 module.exports.validateMovie = (req, res, next) => {
-    let { error } = movieSchema.validate(req.body);
+    let { error } = movieSchema.validate(JSON.parse(req.body.movie));
     if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);

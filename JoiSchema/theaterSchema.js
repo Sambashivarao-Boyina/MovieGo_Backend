@@ -6,8 +6,7 @@ module.exports = Joi.object({
     .pattern(/^[0-9]{10}$/)
     .required()
     .messages({ "string.pattern.base": "Phone Number must be 10 digits" }),
-  image: Joi.string().trim().required(),
-  address: Joi.string().trim().required().min(20).max(100),
+  address: Joi.string().trim().required().max(100),
   city: Joi.string().trim().required(),
   state: Joi.string().trim().max(50).required(),
   pincode: Joi.string()
