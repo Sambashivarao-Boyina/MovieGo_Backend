@@ -65,5 +65,5 @@ module.exports.editTheater = async (req, res) => {
 
   
 
-  res.status(404).json({ message: "Successfully Edited Theater" });
+  res.status(200).json({ message: "Successfully Edited Theater" });
 };

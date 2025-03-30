@@ -33,6 +33,7 @@ const showRouter = require("./Routes/Admin/Show");
 
 //User
 const userAuthRouter = require("./Routes/User/UserAuth");
+const userRouter = require("./Routes/User/User");
 
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/auth", adminAuthRouter);
@@ -41,11 +42,12 @@ app.use("/api/admin/screen", screenRouter)
 app.use("/api/admin/movie", movieRouter);
 app.use("/api/admin/show", showRouter);
 
+app.use("/api/user", userRouter);
 app.use("/api/user/auth", userAuthRouter);
 
 app.use((err, req, res, next) => {
-  console.log(err);
   let { status = 500, message = "Internal ServerError" } = err;
+  console.log(err);
   res.status(status).json({ message: message });
 });
 
