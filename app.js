@@ -34,6 +34,8 @@ const showRouter = require("./Routes/Admin/Show");
 //User
 const userAuthRouter = require("./Routes/User/UserAuth");
 const userRouter = require("./Routes/User/User");
+const userMovieRouter = require("./Routes/User/Movie");
+const userShowsRouter = require("./Routes/User/Show");
 
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/auth", adminAuthRouter);
@@ -44,6 +46,8 @@ app.use("/api/admin/show", showRouter);
 
 app.use("/api/user", userRouter);
 app.use("/api/user/auth", userAuthRouter);
+app.use("/api/user/movie", userMovieRouter);
+app.use("/api/user/show", userShowsRouter); 
 
 app.use((err, req, res, next) => {
   let { status = 500, message = "Internal ServerError" } = err;
