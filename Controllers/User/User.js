@@ -29,8 +29,7 @@ module.exports.changePhoneNumber = async (req, res, next) => {
 module.exports.changePassword = async (req, res, next) => {
     const newPassword = req.body.data;
     const user = await User.findById(req.user.id);
-
-    console.log(newPassword);   
+   
 
     if (!(newPassword && newPassword.trim().length >= 6)) {
         throw new ExpressError(401,"Password should atleast 6 chars");

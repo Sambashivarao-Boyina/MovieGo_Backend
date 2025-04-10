@@ -1,3 +1,4 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -6,17 +7,28 @@ const bookingSchema = new Schema(
     show: {
       type: Schema.Types.ObjectId,
       ref: "Show",
+      required: true
     },
     seats: [
       {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref:"Seat",
         required: true,
       },
     ],
     user: {
       type: Schema.Types.ObjectId,
+      ref:"User",
       required: true,
     },
+    bookingStatus: {
+      type: String,
+      enum:["Processing", "Canceled","Success"]
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now()
+    }
   },
   {
     toJSON: {

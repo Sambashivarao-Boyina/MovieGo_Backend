@@ -1,4 +1,5 @@
 const adminSchema = require("../JoiSchema/adminSchema");
+const bookingSchema = require("../JoiSchema/bookingSchema");
 const movieSchema = require("../JoiSchema/movieSchema");
 const screenSchema = require("../JoiSchema/screenSchema");
 const showSchema = require("../JoiSchema/showSchema");
@@ -59,6 +60,16 @@ module.exports.validateShow = (req, res, next) => {
 
 module.exports.validateUser = (req, res, next) => {
     let { error } = userSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
+
+module.exports.validateBooking = (req, res, next) => {
+    let { error } = bookingSchema.validate(req.body);
     if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);

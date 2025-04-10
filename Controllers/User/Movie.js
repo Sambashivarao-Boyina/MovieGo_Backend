@@ -1,9 +1,13 @@
-const Movie = require("../../Models/movie")
+const Movie = require("../../Models/movie");
+const Show = require("../../Models/show");
 
+//gives only active movies which have shows
 module.exports.getAllMoviesForBooking = async (req, res) => {
-    const movies = await Movie.find();
 
-    res.status(200).json(movies);
+  const movieIds = await Show.distinct("movie", { bookingStatus: "Open" });
+  const movies = await Movie.find({_id: {$in:movieIds}});
+
+  res.status(200).json(movies);
 }
 
 module.exports.getMovieDetails = async (req, res, next) => {
