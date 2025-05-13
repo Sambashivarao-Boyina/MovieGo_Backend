@@ -25,6 +25,10 @@ const bookingSchema = new Schema(
       type: String,
       enum:["Processing", "Canceled","Success"]
     },
+    paymentId: {
+      type: String,
+      default:null
+    },
     createdAt: {
       type: Date,
       default: Date.now()

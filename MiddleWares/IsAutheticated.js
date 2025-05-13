@@ -20,7 +20,7 @@ module.exports  = async (req, res, next) => {
         type = data.type;
     })
 
-    if (id === null) {
+    if (id == null) {
         return res.status(401).json({ message: "You are not login", isSuccess: false });
     }
     req.user = {
