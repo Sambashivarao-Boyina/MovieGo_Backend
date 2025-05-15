@@ -29,6 +29,10 @@ const bookingSchema = new Schema(
       type: String,
       default:null
     },
+    processingUntil: {
+      type: Date,
+      default:null
+    },
     createdAt: {
       type: Date,
       default: Date.now()

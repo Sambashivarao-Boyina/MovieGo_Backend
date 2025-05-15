@@ -1,33 +1,28 @@
 const jwt = require("jsonwebtoken");
+const util = require("util");
 
+const verifyToken = util.promisify(jwt.verify); // Converts callback-based to promise-based
 
-module.exports  = async (req, res, next) => {
-    const headers = req.headers.authorization;
-    if (!headers || !headers.startsWith('Bearer ')) {
-        return res.status(401).json({ message: "You are not login" });
-    }
+module.exports = async (req, res, next) => {
+  const headers = req.headers.authorization;
+  if (!headers || !headers.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "You are not login" });
+  }
 
-    const tokenFound = headers.split(" ")[1];
-   
-    let id;
-    let type;
+  const token = headers.split(" ")[1];
 
-    jwt.verify(tokenFound, process.env.SECREAT_KEY, async (error, data) => {
-        if (error) {
-            return res.status(401).json({message:"You are not login"})
-        }
-        id = data.id;
-        type = data.type;
-    })
+  try {
+    const decoded = await verifyToken(token, process.env.SECREAT_KEY); 
 
-    if (id == null) {
-        return res.status(401).json({ message: "You are not login", isSuccess: false });
-    }
     req.user = {
-       id: id,
-       type: type,
+      id: decoded.id,
+      type: decoded.type,
     };
 
     next();
-    
-}
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ message: "You are not login"});
+  }
+};

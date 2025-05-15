@@ -39,9 +39,11 @@ const userShowsRouter = require("./Routes/User/Show");
 const userBooking = require("./Routes/User/booking");
 const { cleanUpExpiredSeats } = require("./Controllers/User/Seat");
 const { closeExpiredShows } = require("./Controllers/Admin/Show");
+const { clearProcessingBookings } = require("./Controllers/User/Booking");
 
 setInterval(cleanUpExpiredSeats, 60 * 1000);
 setInterval(closeExpiredShows, 60 * 1000);
+setInterval(clearProcessingBookings, 60 * 1000);
 
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/auth", adminAuthRouter);
