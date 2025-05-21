@@ -16,6 +16,14 @@ const bookingSchema = new Schema(
         required: true,
       },
     ],
+    ticketCost: {
+      type: Number,
+      required:true,
+    },
+    totalBookingCost: {
+      type: Number,
+      required:true
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref:"User",

@@ -4,12 +4,18 @@ const ExpressError = require("../../Utils/ExpressError");
 
 module.exports.getMovieShows = async (req, res) => {
   const movieId = req.params.movieId;
+  const state = req.params.state;
+  const city = req.params.city;
+  
+  
 
-  const shows = await Show.find({ movie: movieId, bookingStatus: "Open" })
+  let shows = await Show.find({ movie: movieId, bookingStatus: "Open" })
     .select("-seats")
     .populate("movie")
     .populate("theater")
     .populate("screen");
+  
+  shows = shows.filter((show) => show.theater.state === state && show.theater.city === city);
 
   res.status(200).json(shows);
 };

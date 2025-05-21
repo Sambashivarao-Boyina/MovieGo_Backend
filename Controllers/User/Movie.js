@@ -3,9 +3,26 @@ const Show = require("../../Models/show");
 
 //gives only active movies which have shows
 module.exports.getAllMoviesForBooking = async (req, res) => {
+  const state = req.params.state;
+  const city = req.params.city;
 
-  const movieIds = await Show.distinct("movie", { bookingStatus: "Open" });
-  const movies = await Movie.find({_id: {$in:movieIds}});
+  const shows = await Show.find({ bookingStatus: "Open" }).populate("theater");
+
+  let movieIds = new Set();
+
+  for (let show of shows) {
+   
+
+    if (
+      show.theater.state.trim().toLowerCase() === state.trim().toLowerCase() &&
+      show.theater.city.trim().toLowerCase() === city.trim().toLowerCase()
+    ) {
+      movieIds.add(show.movie.toString()); // convert ObjectId to string if needed
+    }
+  }
+
+
+  const movies = await Movie.find({ _id: { $in: [...movieIds] } });
 
   res.status(200).json(movies);
 }

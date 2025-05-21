@@ -1,5 +1,6 @@
 const Booking = require("../../Models/booking");
 const Seat = require("../../Models/seat");
+const Show = require("../../Models/show");
 const User = require("../../Models/user");
 const ExpressError = require("../../Utils/ExpressError");
 const axios = require("axios");
@@ -22,14 +23,26 @@ module.exports.createBooking = async (req, res) => {
     }
   );
 
+  const show = await Show.findById(showId);
+
   if (result.matchedCount === selectedSeats.length) {
+    const ticketCost = Math.round(show.ticketCost * 100) / 100;
+    const totalBookingCost =
+      Math.round(
+       ( (show.ticketCost * selectedSeats.length) +
+          (show.ticketCost * selectedSeats.length * 0.1)) * 100
+      ) / 100;
+
     const booking = new Booking({
       show: showId,
       bookingStatus: "Processing",
       user: req.user.id,
       seats: selectedSeats,
       processingUntil: new Date(Date.now() + HOLD_TIME),
+      ticketCost,
+      totalBookingCost,
     });
+
 
     const savedBooking = await booking.save();
 
@@ -160,7 +173,6 @@ module.exports.checkoutBooking = async (req, res) => {
   res.status(200).json({ message: "Tickets are booked" });
 };
 
-
 module.exports.getBookingsList = async (req, res) => {
   const bookings = await Booking.find({ user: req.user.id })
     .populate({
@@ -172,7 +184,7 @@ module.exports.getBookingsList = async (req, res) => {
     .populate("seats");
 
   res.status(200).json(bookings);
-}
+};
 
 module.exports.clearProcessingBookings = async () => {
   const now = new Date();
@@ -182,7 +194,5 @@ module.exports.clearProcessingBookings = async () => {
       paymentId: null,
       processingUntil: { $lt: now },
     });
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};

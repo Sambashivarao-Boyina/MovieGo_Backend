@@ -13,4 +13,6 @@ module.exports = Joi.object({
     .pattern(/^[0-9]{6}$/)
     .required()
     .messages({ "string.pattern.base": "Pincode must be 6 digits" }),
+  longitude: Joi.number().required("Coordinates Required"),
+  latitude: Joi.number().required("Coordinates required")
 });

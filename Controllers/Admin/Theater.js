@@ -5,10 +5,19 @@ const ExpressError = require("../../Utils/ExpressError");
 
 module.exports.createNewTheater = async (req, res) => {
   const theater = JSON.parse(req.body.theater);
+  const { longitude, latitude, ...rest } = theater;
 
   const admin = await Admin.findById(req.user.id);
 
-  const newTheater = new Theater({ ...theater, image: req.file.path });
+  const newTheater = new Theater({
+    ...rest,
+    image: req.file.path,
+    location: {
+      type: "Point",
+      coordinates: [theater.longitude, theater.latitude],
+    },
+  });
+
   newTheater.admin = req.user.id;
 
   const savedTheater = await newTheater.save();
@@ -57,12 +66,23 @@ module.exports.editTheater = async (req, res) => {
     await deleteImageByUrl(theater.image);
   }
 
+  newTheaterValues = {
+    ...newTheaterValues,
+    location: {
+      type: "Point",
+      coordinates: [newTheaterValues.longitude, newTheaterValues.latitude],
+    },
+  };
+
   if (req.file) {
-    newTheaterValues = { ...newTheaterValues, image: req.file.path };
+    newTheaterValues = {
+      ...newTheaterValues,
+     
+      image: req.file.path,
+    };
   }
 
-  await Theater.findByIdAndUpdate(theaterId, newTheaterValues);
-
+ await Theater.findByIdAndUpdate(theaterId, newTheaterValues);
   
 
   res.status(200).json({ message: "Successfully Edited Theater" });

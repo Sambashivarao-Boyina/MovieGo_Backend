@@ -5,7 +5,7 @@ const { getAllMoviesForBooking, getMovieDetails } = require("../../Controllers/U
 const isUser = require("../../MiddleWares/isUser");
 const router = express.Router();
 
-router.get("/", IsAutheticated, isUser, WrapAsync(getAllMoviesForBooking));
+router.get("/:state/:city", IsAutheticated, isUser, WrapAsync(getAllMoviesForBooking));
 router.get("/:movieId", IsAutheticated, isUser, WrapAsync(getMovieDetails));
 
 module.exports = router;

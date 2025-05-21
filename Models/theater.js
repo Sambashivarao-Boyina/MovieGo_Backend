@@ -82,6 +82,17 @@ const theaterSchema = new Schema(
         ref: "Screen",
       },
     ],
+    location: {
+      type: {
+        type: String, // "Point"
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number], // [lng, lat]
+        required: true,
+      },
+    },
   },
   {
     toJSON: {
