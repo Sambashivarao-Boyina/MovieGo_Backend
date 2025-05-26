@@ -30,6 +30,7 @@ const theaterRouter = require("./Routes/Admin/Theater");
 const screenRouter = require("./Routes/Admin/Screen");
 const movieRouter = require("./Routes/Admin/Movies");
 const showRouter = require("./Routes/Admin/Show");
+const bookingRoute = require("./Routes/Admin/Booking");
 
 //User
 const userAuthRouter = require("./Routes/User/UserAuth");
@@ -51,6 +52,7 @@ app.use("/api/admin/theater", theaterRouter);
 app.use("/api/admin/screen", screenRouter)
 app.use("/api/admin/movie", movieRouter);
 app.use("/api/admin/show", showRouter);
+app.use("/api/admin/booking", bookingRoute);
 
 app.use("/api/user", userRouter);
 app.use("/api/user/auth", userAuthRouter);

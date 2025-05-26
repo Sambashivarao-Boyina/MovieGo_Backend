@@ -1,4 +1,3 @@
-const { required, string } = require("joi");
 const mongoose = require("mongoose");
 const Seat = require("./seat");
 const Schema = mongoose.Schema;
