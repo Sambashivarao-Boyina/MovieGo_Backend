@@ -5,7 +5,7 @@
 
 This is the backend for the **MovieGo** mobile application — a modern movie ticket booking platform developed using **Jetpack Compose** for the frontend and **Node.js + Express** for the backend.
 
-> 🔗 Frontend Repository: [MovieGo Frontend](https://github.com/Sambashivarao-Boyina/MovieGo_Backend.git)
+> 🔗 Frontend Repository: [MovieGo Frontend](https://github.com/Sambashivarao-Boyina/MovieGo.git)
 
 ---
 
